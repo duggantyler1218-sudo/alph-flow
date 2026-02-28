@@ -103,6 +103,21 @@ function getProductMeta(handle: string, title: string) {
       ],
     };
 
+  if (h.includes('toolkit'))
+    return {
+      type: 'bundle',
+      tier: null,
+      badge: 'Bundle',
+      billingLabel: 'one-time',
+      features: [
+        'Risk Management Playbook (PDF)',
+        'AI Prompt Pack — 50 prompts',
+        'Trader Psychology Quick Guide',
+        'Save $41 vs buying separately',
+        'Instant download, lifetime access',
+      ],
+    };
+
   if (h.includes('bundle'))
     return {
       type: 'bundle',

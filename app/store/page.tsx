@@ -15,7 +15,7 @@ function categorize(products: ShopifyProduct[]) {
 
   for (const p of products) {
     const h = p.handle.toLowerCase();
-    if (h.includes('bundle')) {
+    if (h.includes('bundle') || h.includes('toolkit')) {
       bundles.push(p);
     } else if (
       h.includes('masterclass') || h.includes('course') ||
