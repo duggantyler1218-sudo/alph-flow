@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 
-const OPENCLAW_URL = process.env.OPENCLAW_URL!;
-const OPENCLAW_AGENT_ID = process.env.OPENCLAW_AGENT_ID ?? "main";
+const OPENCLAW_URL = process.env.OPENCLAW_URL;
+const OPENCLAW_AGENT_ID = process.env.OPENCLAW_AGENT_ID ?? "llama-3.3-70b-versatile";
 const OPENCLAW_API_KEY = process.env.OPENCLAW_API_KEY;
 
 const SYSTEM_MESSAGE = {
@@ -11,6 +11,20 @@ const SYSTEM_MESSAGE = {
 };
 
 export async function POST(req: NextRequest) {
+  if (!OPENCLAW_URL) {
+    return new Response(JSON.stringify({ error: "OPENCLAW_URL is not configured" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  if (!OPENCLAW_API_KEY) {
+    return new Response(JSON.stringify({ error: "OPENCLAW_API_KEY is not configured" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const { messages, sessionId } = await req.json();
 
   const body = {
@@ -20,28 +34,35 @@ export async function POST(req: NextRequest) {
     ...(sessionId ? { user: sessionId } : {}),
   };
 
-  const upstream = await fetch(`${OPENCLAW_URL}/v1/chat/completions`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(OPENCLAW_API_KEY ? { Authorization: `Bearer ${OPENCLAW_API_KEY}` } : {}),
-    },
-    body: JSON.stringify(body),
-  });
+  try {
+    const upstream = await fetch(`${OPENCLAW_URL}/v1/chat/completions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${OPENCLAW_API_KEY}`,
+      },
+      body: JSON.stringify(body),
+    });
 
-  if (!upstream.ok) {
-    const text = await upstream.text();
-    return new Response(JSON.stringify({ error: text }), {
-      status: upstream.status,
+    if (!upstream.ok) {
+      const text = await upstream.text();
+      return new Response(JSON.stringify({ error: text }), {
+        status: upstream.status,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    return new Response(upstream.body, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
+  } catch (err) {
+    return new Response(JSON.stringify({ error: String(err) }), {
+      status: 500,
       headers: { "Content-Type": "application/json" },
     });
   }
-
-  return new Response(upstream.body, {
-    headers: {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
-    },
-  });
 }
