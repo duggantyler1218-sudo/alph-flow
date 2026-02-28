@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const { messages, sessionId } = await req.json();
 
   const body = {
-    model: `openclaw:${OPENCLAW_AGENT_ID}`,
+    model: OPENCLAW_AGENT_ID,
     messages,
     stream: true,
     ...(sessionId ? { user: sessionId } : {}),
