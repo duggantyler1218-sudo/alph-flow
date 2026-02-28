@@ -22,7 +22,7 @@ interface CartContextValue {
 
 interface LocalCartItem {
   lineId: string;
-  variantId: string;     // numeric Shopify variant ID
+  variantId: string;
   quantity: number;
   productTitle: string;
   variantTitle: string;
@@ -36,6 +36,8 @@ const CART_KEY = 'af_cart_v2';
 const SHOP = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN ?? '';
 
 function extractVariantId(gid: string): string {
+  // handles "gid://shopify/ProductVariant/12345" → "12345"
+  // or just "12345" → "12345"
   return gid.split('/').pop() ?? gid;
 }
 
@@ -84,82 +86,85 @@ function itemsToCart(items: LocalCartItem[]): ShopifyCart | null {
   };
 }
 
-function loadItems(): LocalCartItem[] {
+function readStorage(): LocalCartItem[] {
   if (typeof window === 'undefined') return [];
   try {
-    return JSON.parse(localStorage.getItem(CART_KEY) ?? '[]');
+    const raw = window.localStorage.getItem(CART_KEY);
+    return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
   }
 }
 
-function saveItems(items: LocalCartItem[]) {
-  localStorage.setItem(CART_KEY, JSON.stringify(items));
+function writeStorage(items: LocalCartItem[]) {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(CART_KEY, JSON.stringify(items));
+  } catch {
+    // ignore — e.g. private browsing / storage full
+  }
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<LocalCartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
-  // Hydrate from localStorage on mount
+  // Load from localStorage on mount
   useEffect(() => {
-    setItems(loadItems());
+    const saved = readStorage();
+    if (saved.length > 0) setItems(saved);
   }, []);
+
+  // Persist to localStorage whenever items change
+  useEffect(() => {
+    writeStorage(items);
+  }, [items]);
 
   const cart = itemsToCart(items);
 
-  const addToCart = useCallback(async (lines: CartLineInput[]) => {
-    setIsLoading(true);
-    try {
-      setItems((prev) => {
-        const next = [...prev];
-        for (const line of lines) {
-          const variantId = extractVariantId(line.merchandiseId);
-          const existing = next.find((i) => i.variantId === variantId);
-          if (existing) {
-            existing.quantity += line.quantity;
-          } else {
-            next.push({
-              lineId: `line-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-              variantId,
-              quantity: line.quantity,
-              productTitle: line.productTitle ?? 'Product',
-              variantTitle: line.variantTitle ?? '',
-              price: line.price ?? '0',
-              currencyCode: line.currencyCode ?? 'USD',
-              imageUrl: line.imageUrl ?? null,
-            });
-          }
+  const addToCart = useCallback((lines: CartLineInput[]) => {
+    setItems((prev) => {
+      const next = [...prev];
+      for (const line of lines) {
+        const variantId = extractVariantId(line.merchandiseId);
+        const idx = next.findIndex((i) => i.variantId === variantId);
+        if (idx >= 0) {
+          // Replace the item with updated quantity (immutable)
+          next[idx] = { ...next[idx], quantity: next[idx].quantity + line.quantity };
+        } else {
+          next.push({
+            lineId: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+            variantId,
+            quantity: line.quantity,
+            productTitle: line.productTitle ?? 'Product',
+            variantTitle: line.variantTitle ?? '',
+            price: line.price ?? '0',
+            currencyCode: line.currencyCode ?? 'USD',
+            imageUrl: line.imageUrl ?? null,
+          });
         }
-        saveItems(next);
-        return next;
-      });
-      setIsOpen(true);
-    } finally {
-      setIsLoading(false);
-    }
+      }
+      return next;
+    });
+    setIsOpen(true);
+    return Promise.resolve();
   }, []);
 
-  const updateLine = useCallback(async (updateLines: CartLineUpdateInput[]) => {
-    setItems((prev) => {
-      const next = prev
+  const updateLine = useCallback((updateLines: CartLineUpdateInput[]) => {
+    setItems((prev) =>
+      prev
         .map((i) => {
-          const upd = updateLines.find((u) => u.id === i.lineId);
-          return upd ? { ...i, quantity: upd.quantity } : i;
+          const u = updateLines.find((ul) => ul.id === i.lineId);
+          return u ? { ...i, quantity: u.quantity } : i;
         })
-        .filter((i) => i.quantity > 0);
-      saveItems(next);
-      return next;
-    });
+        .filter((i) => i.quantity > 0)
+    );
+    return Promise.resolve();
   }, []);
 
-  const removeLine = useCallback(async (lineIds: string[]) => {
-    setItems((prev) => {
-      const next = prev.filter((i) => !lineIds.includes(i.lineId));
-      saveItems(next);
-      return next;
-    });
+  const removeLine = useCallback((lineIds: string[]) => {
+    setItems((prev) => prev.filter((i) => !lineIds.includes(i.lineId)));
+    return Promise.resolve();
   }, []);
 
   return (
@@ -167,7 +172,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       value={{
         cart,
         isOpen,
-        isLoading,
+        isLoading: false,
         openCart: () => setIsOpen(true),
         closeCart: () => setIsOpen(false),
         addToCart,
