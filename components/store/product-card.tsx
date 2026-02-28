@@ -73,6 +73,70 @@ function getProductMeta(handle: string, title: string) {
       ],
     };
 
+  if (h.includes('journal'))
+    return {
+      type: 'template',
+      tier: null,
+      badge: 'Google Sheets',
+      billingLabel: 'one-time',
+      features: [
+        'Automatic P&L tracking',
+        'Win rate & avg R:R dashboards',
+        'Daily, weekly, monthly views',
+        'Emotional state & mistake log',
+        'Strategy tag system',
+        'Instant access after purchase',
+      ],
+    };
+
+  if (h.includes('position-sizing') || h.includes('calculator'))
+    return {
+      type: 'template',
+      tier: null,
+      badge: 'Google Sheets',
+      billingLabel: 'one-time',
+      features: [
+        'Auto position size from risk %',
+        'Max daily loss tracker',
+        'Options contract sizing',
+        'Stocks, futures, forex, crypto',
+        'Side-by-side scenario compare',
+        'Instant access after purchase',
+      ],
+    };
+
+  if (h.includes('price-action') || h.includes('price_action'))
+    return {
+      type: 'guide',
+      tier: null,
+      badge: 'PDF Guide',
+      billingLabel: 'one-time',
+      features: [
+        '20+ chart patterns with examples',
+        'Support & resistance methods',
+        'Entry trigger rules per setup',
+        'Stop loss & target placement',
+        'Multi-timeframe confirmation',
+        '58-page PDF, instant download',
+      ],
+    };
+
+  if (h.includes('gap') || h.includes('gap-and-go'))
+    return {
+      type: 'guide',
+      tier: null,
+      badge: 'PDF Guide',
+      billingLabel: 'one-time',
+      features: [
+        'Pre-market gap scanner criteria',
+        'Exact entry triggers & timing',
+        'Stop placement techniques',
+        'Real trade examples annotated',
+        'Common gap traps to avoid',
+        '42-page PDF, instant download',
+      ],
+    };
+
   if (h.includes('playbook') || h.includes('guide') || h.includes('pdf'))
     return {
       type: 'guide',
@@ -88,47 +152,19 @@ function getProductMeta(handle: string, title: string) {
       ],
     };
 
-  if (h.includes('prompt') || h.includes('pack'))
-    return {
-      type: 'tool',
-      tier: null,
-      badge: 'Prompt Pack',
-      billingLabel: 'one-time',
-      features: [
-        '50 AI coach prompts',
-        'Pre-trade checklists',
-        'End-of-day review templates',
-        'Risk calc prompts',
-        'Instant access',
-      ],
-    };
-
-  if (h.includes('toolkit'))
+  if (h.includes('complete-trader') || h.includes('toolkit') || h.includes('bundle'))
     return {
       type: 'bundle',
       tier: null,
       badge: 'Bundle',
       billingLabel: 'one-time',
       features: [
-        'Risk Management Playbook (PDF)',
-        'AI Prompt Pack — 50 prompts',
-        'Trader Psychology Quick Guide',
-        'Save $41 vs buying separately',
-        'Instant download, lifetime access',
-      ],
-    };
-
-  if (h.includes('bundle'))
-    return {
-      type: 'bundle',
-      tier: null,
-      badge: 'Bundle',
-      billingLabel: 'one-time',
-      features: [
-        'Risk Management Playbook',
-        'AI Prompt Pack (50 prompts)',
-        'Save vs buying separately',
-        'Instant access to everything',
+        'Day Trading Journal (Sheets)',
+        'Position Sizing Calculator (Sheets)',
+        'Price Action Setup Guide (PDF)',
+        'Gap & Go Strategy Playbook (PDF)',
+        'Save $73 vs buying separately',
+        'Lifetime access to all updates',
       ],
     };
 
@@ -159,6 +195,14 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
   const isYearly =
     product.handle.includes('yearly') || product.handle.includes('annual');
 
+  const badgeColor =
+    meta.type === 'template'   ? 'text-green-400' :
+    meta.type === 'guide'      ? 'text-amber-400' :
+    meta.type === 'course'     ? 'text-purple-400' :
+    meta.type === 'bundle'     ? 'text-cyan-400' :
+    featured                   ? 'text-cyan-400' :
+                                 'text-zinc-500';
+
   return (
     <div
       className={`relative flex flex-col rounded-2xl border p-8 transition-all duration-300 ${
@@ -179,11 +223,7 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
       {/* Type badge */}
       <div className="mb-2 flex items-center gap-2">
         {meta.badge && (
-          <span
-            className={`text-xs font-semibold uppercase tracking-widest ${
-              featured ? 'text-cyan-400' : 'text-zinc-500'
-            }`}
-          >
+          <span className={`text-xs font-semibold uppercase tracking-widest ${badgeColor}`}>
             {meta.badge}
           </span>
         )}
@@ -256,7 +296,8 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
           label={
             meta.type === 'subscription'
               ? `Get ${meta.tier === 'free' ? 'Started Free' : isYearly ? 'Annual Plan' : 'Monthly Plan'}`
-              : 'Buy Now'
+              : meta.type === 'bundle' ? 'Get the Bundle'
+              : 'Download Now'
           }
           featured={featured}
         />

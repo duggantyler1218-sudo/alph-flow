@@ -15,12 +15,14 @@ function categorize(products: ShopifyProduct[]) {
 
   for (const p of products) {
     const h = p.handle.toLowerCase();
-    if (h.includes('bundle') || h.includes('toolkit')) {
+    if (h.includes('bundle') || h.includes('toolkit') || h.includes('complete-trader')) {
       bundles.push(p);
     } else if (
       h.includes('masterclass') || h.includes('course') ||
       h.includes('playbook') || h.includes('guide') ||
-      h.includes('pdf') || h.includes('prompt') || h.includes('pack')
+      h.includes('pdf') || h.includes('journal') ||
+      h.includes('calculator') || h.includes('price-action') ||
+      h.includes('gap')
     ) {
       oneTime.push(p);
     } else {
@@ -255,11 +257,8 @@ export default async function StorePage() {
           {oneTime.length > 0 && (
             <section className="mx-auto max-w-6xl px-6 pt-24">
               <div className="mb-10 text-center">
-                <h2 className="text-3xl font-bold text-zinc-50">Tools &amp; Courses</h2>
-                <p className="mt-2 text-zinc-400">One-time purchase · Lifetime access · Instant download</p>
-                <p className="mt-1 text-xs text-zinc-600">
-                  Warrior Trading charges $2,997 for their course. Ours starts at $67.
-                </p>
+                <h2 className="text-3xl font-bold text-zinc-50">Tools, Templates &amp; Guides</h2>
+                <p className="mt-2 text-zinc-400">One-time purchase · Instant download · Used by active traders every day</p>
               </div>
               <div className={`grid gap-6 ${
                 oneTime.length === 1 ? 'max-w-sm mx-auto' :
