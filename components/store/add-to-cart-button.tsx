@@ -8,6 +8,11 @@ interface AddToCartButtonProps {
   label?: string;
   featured?: boolean;
   className?: string;
+  // Product display info for the cart drawer
+  productTitle?: string;
+  price?: string;
+  currencyCode?: string;
+  imageUrl?: string | null;
 }
 
 export function AddToCartButton({
@@ -15,6 +20,10 @@ export function AddToCartButton({
   label = 'Add to Cart',
   featured = false,
   className,
+  productTitle,
+  price,
+  currencyCode,
+  imageUrl,
 }: AddToCartButtonProps) {
   const { addToCart } = useCart();
   const [loading, setLoading] = useState(false);
@@ -23,7 +32,14 @@ export function AddToCartButton({
   async function handleClick() {
     setLoading(true);
     try {
-      await addToCart([{ merchandiseId, quantity: 1 }]);
+      await addToCart([{
+        merchandiseId,
+        quantity: 1,
+        productTitle,
+        price,
+        currencyCode,
+        imageUrl,
+      }]);
       setAdded(true);
       setTimeout(() => setAdded(false), 2000);
     } finally {
@@ -46,24 +62,9 @@ export function AddToCartButton({
     >
       {loading ? (
         <>
-          <svg
-            className="h-4 w-4 animate-spin"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-            />
+          <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
           </svg>
           Adding...
         </>

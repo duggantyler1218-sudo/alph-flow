@@ -695,6 +695,10 @@ export default async function ProductPage({ params }: Params) {
                 merchandiseId={variant.id}
                 label={content.ctaLabel}
                 featured
+                productTitle={product.title}
+                price={price?.amount}
+                currencyCode={price?.currencyCode}
+                imageUrl={product.featuredImage?.url ?? null}
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-500 py-4 text-base font-bold text-black transition-all hover:bg-cyan-400 active:scale-[0.99] disabled:opacity-60"
               />
             )}
@@ -795,6 +799,10 @@ export default async function ProductPage({ params }: Params) {
                 merchandiseId={variant.id}
                 label={content.ctaLabel}
                 featured
+                productTitle={product.title}
+                price={price?.amount}
+                currencyCode={price?.currencyCode}
+                imageUrl={product.featuredImage?.url ?? null}
                 className="rounded-xl bg-cyan-500 px-8 py-3.5 text-sm font-bold text-black transition-colors hover:bg-cyan-400 disabled:opacity-60"
               />
               <Link href="/store" className="rounded-xl border border-zinc-700 px-6 py-3.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-zinc-50">

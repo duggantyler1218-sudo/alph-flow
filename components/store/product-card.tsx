@@ -300,6 +300,10 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
               : 'Download Now'
           }
           featured={featured}
+          productTitle={product.title}
+          price={variant.price.amount}
+          currencyCode={variant.price.currencyCode}
+          imageUrl={product.featuredImage?.url ?? null}
         />
       ) : (
         <Link

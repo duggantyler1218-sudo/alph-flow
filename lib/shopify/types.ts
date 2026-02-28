@@ -68,6 +68,12 @@ export interface ShopifyCart {
 export interface CartLineInput {
   merchandiseId: string;
   quantity: number;
+  // Display metadata for local cart (not sent to Shopify API)
+  productTitle?: string;
+  variantTitle?: string;
+  price?: string;
+  currencyCode?: string;
+  imageUrl?: string | null;
 }
 
 export interface CartLineUpdateInput {
