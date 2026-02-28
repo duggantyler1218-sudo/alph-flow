@@ -38,6 +38,12 @@ export function Nav() {
             Coach
           </Link>
           <Link
+            href="/dashboard"
+            className="text-sm font-medium text-zinc-400 transition-colors hover:text-zinc-50"
+          >
+            Signals
+          </Link>
+          <Link
             href="/chat"
             className="text-sm font-medium text-zinc-400 transition-colors hover:text-zinc-50"
           >
