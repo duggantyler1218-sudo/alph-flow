@@ -7,9 +7,21 @@ export const metadata: Metadata = {
     'Real-time AI trade signals, an AI trading assistant, and the only built-in discipline coach on the market. Half the price of legacy platforms. 30-day guarantee.',
 };
 
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://alpha-flow.vercel.app';
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Alpha Flow',
+  url: BASE,
+  description: 'AI-native trading signals platform with built-in discipline coach. Real-time signals for stocks, crypto, and forex.',
+  sameAs: [],
+};
+
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-zinc-950">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden pt-32 pb-20">

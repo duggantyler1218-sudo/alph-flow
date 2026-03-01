@@ -785,8 +785,27 @@ export default async function ProductPage({ params }: Params) {
 
   const isFree = price && parseFloat(price.amount) === 0;
 
+  const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://alpha-flow.vercel.app';
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.title,
+    description: content.features.join('. '),
+    image: product.featuredImage?.url,
+    brand: { '@type': 'Brand', name: 'Alpha Flow' },
+    offers: {
+      '@type': 'Offer',
+      url: `${BASE}/store/${product.handle}`,
+      priceCurrency: price?.currencyCode ?? 'USD',
+      price: price?.amount ?? '0',
+      availability: 'https://schema.org/InStock',
+      seller: { '@type': 'Organization', name: 'Alpha Flow' },
+    },
+  };
+
   return (
     <div className="min-h-screen bg-zinc-950 pt-24">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="mx-auto max-w-6xl px-6 py-12">
 
         {/* Breadcrumb */}
