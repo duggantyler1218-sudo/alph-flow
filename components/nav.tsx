@@ -47,7 +47,7 @@ export function Nav() {
             href="/chat"
             className="text-sm font-medium text-zinc-400 transition-colors hover:text-zinc-50"
           >
-            Dashboard
+            AI Chat
           </Link>
 
           {/* Cart button */}

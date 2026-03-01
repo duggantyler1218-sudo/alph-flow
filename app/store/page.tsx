@@ -10,21 +10,24 @@ export const metadata: Metadata = {
 
 function categorize(products: ShopifyProduct[]) {
   const subscriptions: ShopifyProduct[] = [];
-  const oneTime: ShopifyProduct[] = [];
+  const tools: ShopifyProduct[] = [];
+  const ebooks: ShopifyProduct[] = [];
   const bundles: ShopifyProduct[] = [];
 
   for (const p of products) {
     const h = p.handle.toLowerCase();
     if (h.includes('bundle') || h.includes('toolkit') || h.includes('complete-trader')) {
       bundles.push(p);
+    } else if (h.includes('ebook')) {
+      ebooks.push(p);
     } else if (
       h.includes('masterclass') || h.includes('course') ||
       h.includes('playbook') || h.includes('guide') ||
       h.includes('pdf') || h.includes('journal') ||
       h.includes('calculator') || h.includes('price-action') ||
-      h.includes('gap') || h.includes('ebook')
+      h.includes('gap')
     ) {
-      oneTime.push(p);
+      tools.push(p);
     } else {
       subscriptions.push(p);
     }
@@ -41,7 +44,21 @@ function categorize(products: ShopifyProduct[]) {
     return order(a.handle) - order(b.handle);
   });
 
-  return { subscriptions, oneTime, bundles };
+  // Sort tools by price ascending (templates first, then guides, then course)
+  tools.sort((a, b) => {
+    const pa = parseFloat(a.variants.edges[0]?.node.price.amount ?? '0');
+    const pb = parseFloat(b.variants.edges[0]?.node.price.amount ?? '0');
+    return pa - pb;
+  });
+
+  // Sort ebooks by price ascending
+  ebooks.sort((a, b) => {
+    const pa = parseFloat(a.variants.edges[0]?.node.price.amount ?? '0');
+    const pb = parseFloat(b.variants.edges[0]?.node.price.amount ?? '0');
+    return pa - pb;
+  });
+
+  return { subscriptions, tools, ebooks, bundles };
 }
 
 const COMPARE_ROWS = [
@@ -71,7 +88,7 @@ function Check({ yes }: { yes: boolean }) {
 
 export default async function StorePage() {
   const products = await getProducts();
-  const { subscriptions, oneTime, bundles } = categorize(products);
+  const { subscriptions, tools, ebooks, bundles } = categorize(products);
 
   return (
     <div className="min-h-screen bg-zinc-950 pt-24">
@@ -253,30 +270,52 @@ export default async function StorePage() {
             </div>
           </section>
 
-          {/* ── Tools & Courses ─────────────────────────────────────────── */}
-          {oneTime.length > 0 && (
+          {/* ── Tools, Templates & Guides ───────────────────────────── */}
+          {tools.length > 0 && (
             <section className="mx-auto max-w-6xl px-6 pt-24">
               <div className="mb-10 text-center">
                 <h2 className="text-3xl font-bold text-zinc-50">Tools, Templates &amp; Guides</h2>
-                <p className="mt-2 text-zinc-400">One-time purchase · Instant download · Used by active traders every day</p>
+                <p className="mt-2 text-zinc-400">One-time purchase · Instant access · Used by active traders every day</p>
               </div>
               <div className={`grid gap-6 ${
-                oneTime.length === 1 ? 'max-w-sm mx-auto' :
-                oneTime.length === 2 ? 'sm:grid-cols-2 max-w-3xl mx-auto' : 'sm:grid-cols-3'
+                tools.length === 1 ? 'max-w-sm mx-auto' :
+                tools.length === 2 ? 'sm:grid-cols-2 max-w-3xl mx-auto' : 'sm:grid-cols-3'
               }`}>
-                {oneTime.map((product) => <ProductCard key={product.id} product={product} />)}
+                {tools.map((product) => <ProductCard key={product.id} product={product} />)}
               </div>
             </section>
           )}
 
-          {/* ── Bundles ─────────────────────────────────────────────────── */}
+          {/* ── eBooks ──────────────────────────────────────────────── */}
+          {ebooks.length > 0 && (
+            <section className="mx-auto max-w-6xl px-6 pt-24">
+              <div className="mb-10 text-center">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-rose-500/20 bg-rose-500/5 px-3 py-1">
+                  <span className="text-xs font-semibold uppercase tracking-widest text-rose-400">eBooks</span>
+                </div>
+                <h2 className="text-3xl font-bold text-zinc-50">Trading Knowledge, Instantly</h2>
+                <p className="mt-2 text-zinc-400">Straight-to-the-point guides on the topics that cost traders the most money</p>
+              </div>
+              <div className={`grid gap-6 ${
+                ebooks.length === 1 ? 'max-w-sm mx-auto' :
+                ebooks.length === 2 ? 'sm:grid-cols-2 max-w-3xl mx-auto' : 'sm:grid-cols-3'
+              }`}>
+                {ebooks.map((product) => <ProductCard key={product.id} product={product} />)}
+              </div>
+            </section>
+          )}
+
+          {/* ── Bundle ──────────────────────────────────────────────────── */}
           {bundles.length > 0 && (
             <section className="mx-auto max-w-4xl px-6 pt-24">
               <div className="mb-10 text-center">
-                <h2 className="text-3xl font-bold text-zinc-50">Bundles</h2>
-                <p className="mt-2 text-zinc-400">The complete trading toolkit, packaged at a discount</p>
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/5 px-3 py-1">
+                  <span className="text-xs font-semibold uppercase tracking-widest text-amber-400">Best Value</span>
+                </div>
+                <h2 className="text-3xl font-bold text-zinc-50">Get Everything at Once</h2>
+                <p className="mt-2 text-zinc-400">Journal + Calculator + 2 PDF guides bundled together — save $73 vs buying separately</p>
               </div>
-              <div className={`grid gap-6 ${bundles.length === 1 ? 'max-w-sm mx-auto' : 'sm:grid-cols-2'}`}>
+              <div className={`grid gap-6 ${bundles.length === 1 ? 'max-w-lg mx-auto' : 'sm:grid-cols-2'}`}>
                 {bundles.map((product) => <ProductCard key={product.id} product={product} featured />)}
               </div>
             </section>
