@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { getProducts } from '@/lib/shopify/client';
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://alpha-flow.vercel.app';
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://alph-flow-tys-projects-4759a559.vercel.app';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const products = await getProducts();

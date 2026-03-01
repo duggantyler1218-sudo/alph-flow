@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     'Real-time AI trade signals, an AI trading assistant, and the only built-in discipline coach on the market. Half the price of legacy platforms. 30-day guarantee.',
 };
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://alpha-flow.vercel.app';
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://alph-flow-tys-projects-4759a559.vercel.app';
 
 const orgJsonLd = {
   '@context': 'https://schema.org',
