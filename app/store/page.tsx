@@ -22,7 +22,7 @@ function categorize(products: ShopifyProduct[]) {
       h.includes('playbook') || h.includes('guide') ||
       h.includes('pdf') || h.includes('journal') ||
       h.includes('calculator') || h.includes('price-action') ||
-      h.includes('gap')
+      h.includes('gap') || h.includes('ebook')
     ) {
       oneTime.push(p);
     } else {

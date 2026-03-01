@@ -152,6 +152,54 @@ function getProductMeta(handle: string, title: string) {
       ],
     };
 
+  if (h.includes('ebook')) {
+    const features: Record<string, string[]> = {
+      'stop-revenge-trading': [
+        '30-day structured discipline reset',
+        'Identify & break revenge trading triggers',
+        'Daily mindset check-in exercises',
+        'Stop-the-spiral emergency action plan',
+        'Instant PDF download',
+      ],
+      'options-trading-beginners': [
+        'Calls, puts & spreads explained simply',
+        'How to read an options chain',
+        'Buying vs selling options',
+        'Risk management on every trade',
+        'Instant PDF download',
+      ],
+      'profitable-traders-habits': [
+        '7 science-backed trading habits',
+        'Daily routines of consistent traders',
+        'How to eliminate emotional decisions',
+        'Building a bulletproof trade plan',
+        'Instant PDF download',
+      ],
+      'crypto-beginners': [
+        'Buy, trade & store crypto safely',
+        'Wallets, exchanges & security',
+        'Crypto trading fundamentals',
+        'Portfolio & risk basics',
+        'Instant PDF download',
+      ],
+      '5am-trader': [
+        '5AM pre-market research routine',
+        'Gap scan & watchlist building',
+        'Mental prep before market open',
+        'Trade plan template included',
+        'Instant PDF download',
+      ],
+    };
+    const key = Object.keys(features).find((k) => h.includes(k));
+    return {
+      type: 'ebook',
+      tier: null,
+      badge: 'eBook',
+      billingLabel: 'one-time',
+      features: key ? features[key] : ['Instant PDF download'],
+    };
+  }
+
   if (h.includes('complete-trader') || h.includes('toolkit') || h.includes('bundle'))
     return {
       type: 'bundle',
@@ -200,6 +248,7 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
     meta.type === 'guide'      ? 'text-amber-400' :
     meta.type === 'course'     ? 'text-purple-400' :
     meta.type === 'bundle'     ? 'text-cyan-400' :
+    meta.type === 'ebook'      ? 'text-rose-400' :
     featured                   ? 'text-cyan-400' :
                                  'text-zinc-500';
 
@@ -319,7 +368,7 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
       )}
 
       <p className="mt-4 text-center text-xs text-zinc-600">
-        {meta.type === 'subscription' ? 'Cancel anytime · No hidden fees' : '30-day money-back guarantee'}
+        {meta.type === 'subscription' ? 'Cancel anytime · No hidden fees' : 'Instant access · 30-day money-back guarantee'}
       </p>
     </div>
   );

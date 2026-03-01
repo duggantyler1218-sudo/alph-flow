@@ -404,6 +404,173 @@ function getProductContent(handle: string, title: string): ProductContent {
     };
   }
 
+  // ── eBooks ───────────────────────────────────────────────────────────────
+
+  if (h.includes('stop-revenge-trading')) {
+    return {
+      badge: 'eBook', badgeColor: 'text-rose-400 border-rose-500/30 bg-rose-500/10',
+      billingLabel: 'one-time',
+      ctaLabel: 'Download Now — Instant Access',
+      features: [
+        '30-day structured discipline reset',
+        'Identify & break revenge trading triggers',
+        'Daily mindset check-in exercises',
+        'Stop-the-spiral emergency action plan',
+        '58-page PDF, instant download',
+      ],
+      whatYouGet: [
+        { heading: '30-Day Reset Framework', body: 'A structured 30-day program that systematically breaks the revenge trading cycle. Each day has a specific focus — from identifying triggers to rebuilding your trade plan with discipline rules baked in.' },
+        { heading: 'Trigger Identification System', body: 'Learn to identify your personal revenge trading triggers before they fire. Includes a self-assessment worksheet and a "cooling off" protocol for after a losing trade.' },
+        { heading: 'Daily Check-In Exercises', body: 'Short, focused exercises to start and end each trading day. Takes 5 minutes but compounds over time — traders who journal consistently are 2x more profitable than those who don\'t.' },
+        { heading: 'Emergency Action Plan', body: 'A printed card-sized protocol for the exact moment you feel the urge to revenge trade. Tested by hundreds of traders to break the spiral in real time.' },
+      ],
+      whoIsItFor: [
+        'Traders who have blown an account from revenge trading',
+        'Anyone who struggles to stop trading after a big loss',
+        'Traders who know their rules but break them anyway',
+        'Anyone ready to turn discipline into a habit',
+      ],
+      faq: [
+        { q: 'Is this a digital download?', a: 'Yes — instant PDF download. You\'ll receive access immediately after purchase.' },
+        { q: 'Do I need trading experience?', a: 'No — this book works for beginners and experienced traders alike. The discipline issues it addresses are universal.' },
+        { q: 'What if it doesn\'t work for me?', a: '30-day money-back guarantee, no questions asked.' },
+      ],
+      previewType: 'guide',
+    };
+  }
+
+  if (h.includes('options-trading-beginners')) {
+    return {
+      badge: 'eBook', badgeColor: 'text-blue-400 border-blue-500/30 bg-blue-500/10',
+      billingLabel: 'one-time',
+      ctaLabel: 'Download Now — Instant Access',
+      features: [
+        'Calls, puts & spreads explained simply',
+        'How to read an options chain',
+        'Buying vs selling options — key differences',
+        'Risk management on every options trade',
+        '72-page PDF, instant download',
+      ],
+      whatYouGet: [
+        { heading: 'Options Fundamentals', body: 'Calls, puts, strike prices, expiration dates, and premiums — explained with real examples, not textbook theory. By page 20 you\'ll understand what most beginners spend months figuring out.' },
+        { heading: 'Reading the Chain', body: 'How to interpret an options chain, understand the Greeks (delta, theta, vega), and identify which contracts give you the best risk/reward for your trade idea.' },
+        { heading: 'Buying vs Selling Options', body: 'Most beginners only buy options (and lose to theta decay). This section explains when to buy calls/puts, when to sell covered calls, and how to think like the professionals.' },
+        { heading: 'Risk Management', body: 'Options can expire worthless — position sizing and stop rules are critical. This chapter walks through exactly how to size options positions and when to cut.' },
+      ],
+      whoIsItFor: [
+        'Stock traders curious about options for the first time',
+        'Anyone who\'s been confused by options chain screenshots',
+        'Traders who want to hedge positions or generate income',
+        'Anyone tired of overpaying for options courses',
+      ],
+      faq: [
+        { q: 'Do I need to know stocks first?', a: 'Basic stock market knowledge helps, but the book starts from scratch. If you know what a stock is, you\'re ready.' },
+        { q: 'Is this for US markets only?', a: 'The concepts apply globally, though examples use US exchanges (Nasdaq, CBOE).' },
+        { q: 'Is there a money-back guarantee?', a: 'Yes — 30 days, no questions asked.' },
+      ],
+      previewType: 'guide',
+    };
+  }
+
+  if (h.includes('profitable-traders-habits')) {
+    return {
+      badge: 'eBook', badgeColor: 'text-green-400 border-green-500/30 bg-green-500/10',
+      billingLabel: 'one-time',
+      ctaLabel: 'Download Now — Instant Access',
+      features: [
+        '7 science-backed trading habits',
+        'Daily routines of consistently profitable traders',
+        'How to eliminate emotional decisions',
+        'Building a bulletproof trade plan',
+        '64-page PDF, instant download',
+      ],
+      whatYouGet: [
+        { heading: '7 Habits Framework', body: 'Each habit is backed by behavioral research and illustrated with real trading examples. From pre-market routines to post-session reviews — these are the behaviors that separate 10% traders from the rest.' },
+        { heading: 'Daily Routine Templates', body: 'Morning, intraday, and end-of-day routines you can implement immediately. Includes a printable daily checklist so you never skip a step, even on stressful trading days.' },
+        { heading: 'Decision Elimination System', body: 'The best traders make fewer decisions, not more. This section teaches you to pre-define your rules so that in-the-moment emotions can\'t override your plan.' },
+        { heading: 'Trade Plan Builder', body: 'A step-by-step template to build your personal trade plan — covering setups, entry criteria, risk rules, max loss limits, and daily review process.' },
+      ],
+      whoIsItFor: [
+        'Traders who are inconsistent despite knowing their strategy',
+        'Anyone who has profitable weeks followed by blow-up weeks',
+        'Traders who want to systematize their approach',
+        'Anyone looking to build the habits of a professional trader',
+      ],
+      faq: [
+        { q: 'Are these habits for day traders or swing traders?', a: 'Both. The habits are universal — whether you hold for minutes or weeks, these behavioral patterns apply.' },
+        { q: 'How quickly can I see results?', a: 'Many traders report measurable improvement within the first 2 weeks of applying even 2-3 of the habits consistently.' },
+        { q: 'Is there a guarantee?', a: '30-day money-back guarantee, no questions asked.' },
+      ],
+      previewType: 'guide',
+    };
+  }
+
+  if (h.includes('crypto-beginners')) {
+    return {
+      badge: 'eBook', badgeColor: 'text-amber-400 border-amber-500/30 bg-amber-500/10',
+      billingLabel: 'one-time',
+      ctaLabel: 'Download Now — Instant Access',
+      features: [
+        'Buy, trade & store crypto safely',
+        'Wallets, exchanges & security',
+        'Crypto trading fundamentals',
+        'Portfolio & risk management basics',
+        '68-page PDF, instant download',
+      ],
+      whatYouGet: [
+        { heading: 'Crypto Fundamentals', body: 'Bitcoin, Ethereum, altcoins, DeFi, NFTs — what actually matters vs hype. Cuts through the noise to explain what crypto is, how it works, and why people trade it.' },
+        { heading: 'Buying & Storing Safely', body: 'Step-by-step guide to setting up a wallet, choosing an exchange, and securing your assets. Covers the biggest mistakes beginners make (like leaving coins on exchanges).' },
+        { heading: 'Trading Crypto', body: 'Spot vs futures, long vs short, leverage — explained in plain English. Includes a risk framework specifically designed for crypto\'s volatility.' },
+        { heading: 'Portfolio Basics', body: 'How to think about allocation across crypto assets, position sizing given crypto\'s volatility, and when (and when not) to use stop losses in 24/7 markets.' },
+      ],
+      whoIsItFor: [
+        'Complete crypto beginners who want to start right',
+        'Stock traders considering adding crypto to their portfolio',
+        'Anyone who has lost money in crypto and wants to understand why',
+        'Anyone tired of vague YouTube videos about crypto',
+      ],
+      faq: [
+        { q: 'Is this up to date?', a: 'Yes — written in 2025, covering current exchanges, wallets, and regulations. We update for major market changes.' },
+        { q: 'Do I need technical knowledge?', a: 'Zero technical knowledge required. If you can use a smartphone app, you can follow this guide.' },
+        { q: 'Is there a money-back guarantee?', a: 'Yes — 30 days, no questions asked.' },
+      ],
+      previewType: 'guide',
+    };
+  }
+
+  if (h.includes('5am-trader')) {
+    return {
+      badge: 'eBook', badgeColor: 'text-orange-400 border-orange-500/30 bg-orange-500/10',
+      billingLabel: 'one-time',
+      ctaLabel: 'Download Now — Instant Access',
+      features: [
+        '5AM pre-market research routine',
+        'Gap scan & watchlist building process',
+        'Mental preparation before market open',
+        'Trade plan template for every session',
+        '54-page PDF, instant download',
+      ],
+      whatYouGet: [
+        { heading: 'The 5AM Routine', body: 'A minute-by-minute morning routine from 5AM to market open. Covers what to scan, what to read, what to skip — so you arrive at 9:30 with a clear plan, not scrambling for ideas.' },
+        { heading: 'Pre-Market Gap Scan', body: 'How to identify the 2-3 stocks worth watching each morning. Includes specific scan criteria, news filters, and a scoring system to rank your watchlist by trade potential.' },
+        { heading: 'Mental Preparation Protocol', body: 'The psychological component of morning prep that most traders ignore. Visualization techniques, breathing exercises, and a 5-minute mindset check-in used by professional traders.' },
+        { heading: 'Daily Trade Plan Template', body: 'A fillable trade plan template for every session — covering your watchlist, entry criteria, max loss for the day, and personal rules to enforce. Included as a printable PDF.' },
+      ],
+      whoIsItFor: [
+        'Day traders who feel unprepared when the market opens',
+        'Traders who take impulsive trades without a plan',
+        'Anyone who wants to build a structured pre-market routine',
+        'Morning-focused traders who want to maximize the first hour',
+      ],
+      faq: [
+        { q: 'Do I really need to wake up at 5AM?', a: 'The 5AM time is for US market open at 9:30 EST. Adjust to your timezone — the routine works whenever pre-market starts in your region.' },
+        { q: 'Does this work for all markets?', a: 'The routine is designed for US equities and can be adapted for crypto (24/7) or forex. The principles are universal.' },
+        { q: 'Is there a guarantee?', a: '30-day money-back guarantee, no questions asked.' },
+      ],
+      previewType: 'guide',
+    };
+  }
+
   // fallback
   return {
     badge: 'Alpha Flow', badgeColor: 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10',

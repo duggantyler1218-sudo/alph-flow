@@ -121,6 +121,14 @@ const ICONS = {
            <rect x="4" y="-24" width="20" height="20" rx="3"/>
            <rect x="-24" y="4" width="20" height="20" rx="3"/>
            <rect x="4" y="4" width="20" height="20" rx="3"/>`,
+
+  // Ebook: open book
+  ebook: `<path d="M-2,-24 L-24,-18 L-24,22 L-2,16 Z"/>
+          <path d="M2,-24 L24,-18 L24,22 L2,16 Z"/>
+          <line x1="-2" y1="-24" x2="-2" y2="16" stroke-width="2" opacity="0.6"/>
+          <line x1="2" y1="-24" x2="2" y2="16" stroke-width="2" opacity="0.6"/>
+          <line x1="-20" y1="-8" x2="-4" y2="-11" stroke-width="1.5" opacity="0.5"/>
+          <line x1="-20" y1="2" x2="-4" y2="-1" stroke-width="1.5" opacity="0.5"/>`,
 };
 
 // ── Product definitions ───────────────────────────────────────────────────────
@@ -213,6 +221,46 @@ const PRODUCT_IMAGES = [
     subtitle: 'Journal + Calculator + 2 Guides · Save $73',
     accent: '#f59e0b',
     badge: 'BEST VALUE',
+  },
+  {
+    handle: 'stop-revenge-trading-ebook',
+    icon: ICONS.ebook,
+    title: 'Stop Revenge Trading',
+    subtitle: '30-Day Discipline Reset · $17',
+    accent: '#f43f5e',
+    badge: 'EBOOK',
+  },
+  {
+    handle: 'options-trading-beginners-ebook',
+    icon: ICONS.ebook,
+    title: 'Options for Beginners',
+    subtitle: 'The Simple Start Guide · $19',
+    accent: '#3b82f6',
+    badge: 'EBOOK',
+  },
+  {
+    handle: 'profitable-traders-habits-ebook',
+    icon: ICONS.ebook,
+    title: '7 Habits of Profitable Traders',
+    subtitle: 'Science-backed trading habits · $14',
+    accent: '#22c55e',
+    badge: 'EBOOK',
+  },
+  {
+    handle: 'crypto-beginners-ebook',
+    icon: ICONS.ebook,
+    title: 'Crypto for Beginners',
+    subtitle: 'Buy, Trade &amp; Protect Your Money · $12',
+    accent: '#f59e0b',
+    badge: 'EBOOK',
+  },
+  {
+    handle: '5am-trader-morning-routine-ebook',
+    icon: ICONS.ebook,
+    title: 'The 5AM Trader',
+    subtitle: 'Morning Routine for Consistent Profits · $19',
+    accent: '#f97316',
+    badge: 'EBOOK',
   },
 ];
 
